@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Stop all tally-chatbot services
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+NC='\033[0m'
+
+echo -e "${GREEN}Stopping Tally Chatbot services...${NC}\n"
+
+# Stop ngrok
+if pgrep -x ngrok > /dev/null; then
+  pkill ngrok
+  echo -e "${GREEN}✓ Stopped ngrok tunnel${NC}"
+else
+  echo "  ngrok not running"
+fi
+
+# Stop proxy
+if pgrep -f "uvicorn" > /dev/null; then
+  pkill -f "uvicorn"
+  echo -e "${GREEN}✓ Stopped proxy server${NC}"
+else
+  echo "  Proxy not running"
+fi
+
+sleep 1
+
+echo -e "\n${GREEN}All services stopped.${NC}"
+echo -e "Log files still available:"
+echo "  /tmp/tally-proxy.log"
+echo "  /tmp/tally-ngrok.log"

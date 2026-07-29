@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "tally": {
+      "command": "ssh",
+      "args": [
+        "contabo-tally",
+        "TALLY_HOST=localhost TALLY_PORT=9000 TALLY_COMPANY=Yuvaraj TALLY_LOG_LEVEL=info /root/tally-mcp/tally-mcp-linux"
+      ]
+    }
+  }
+}

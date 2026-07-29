@@ -1,0 +1,167 @@
+================================================================================
+                    TALLY CHATBOT - QUICK REFERENCE
+================================================================================
+
+EVERYTHING YOU NEED TO KNOW IN ONE FILE
+
+================================================================================
+DAILY USAGE (Copy & Paste)
+================================================================================
+
+START THE CHATBOT:
+  cd ~/Projects/tally-chatbot
+  bash start
+
+STOP THE CHATBOT:
+  cd ~/Projects/tally-chatbot
+  bash stop
+
+WATCH LOGS:
+  tail -f /tmp/tally-proxy.log
+  tail -f /tmp/tally-ngrok.log
+
+ACCESS CHATBOT:
+  https://tally-chatbot.vercel.app
+
+================================================================================
+WHAT HAPPENS WHEN YOU RUN "bash start"
+================================================================================
+
+1. Starts proxy server on port 8787
+   └─ Reads from TallyPrime on port 9000
+
+2. Starts ngrok tunnel on public domain
+   └─ https://headset-slighting-heave.ngrok-free.dev
+
+3. Chatbot becomes accessible
+   └─ https://tally-chatbot.vercel.app
+
+Flow: Chatbot UI → Vercel → Tunnel → Local Proxy → TallyPrime
+
+================================================================================
+REQUIREMENTS
+================================================================================
+
+✓ TallyPrime must be open and accessible on :9000
+✓ Python venv at ~/Projects/tally-chatbot/proxy/.venv
+✓ ngrok installed at ~/bin/ngrok
+
+If missing any:
+  See SETUP_STEPS.md for first-time setup
+
+================================================================================
+TROUBLESHOOTING ONE-LINERS
+================================================================================
+
+Is TallyPrime running?
+  ss -tln | grep 9000
+
+Is proxy running?
+  ss -tln | grep 8787
+
+Is ngrok running?
+  pgrep ngrok
+
+All services running?
+  ss -tln | grep -E '8787|9000' && pgrep ngrok && echo "All good!"
+
+Restart everything:
+  bash stop && sleep 2 && bash start
+
+Check proxy errors:
+  tail -20 /tmp/tally-proxy.log
+
+Check tunnel errors:
+  tail -20 /tmp/tally-ngrok.log
+
+Clear old processes (nuclear option):
+  pkill ngrok; pkill -f uvicorn; sleep 2; bash start
+
+================================================================================
+WHY THE OLD COMMAND FAILED
+================================================================================
+
+You ran:  sh start-local.sh
+Error:   "set: Illegal option -o pipefall"
+
+Reason:   Script needs bash, but you used sh (minimal shell)
+Fix:      Use "bash start" instead (new, improved script)
+
+================================================================================
+FILE LOCATIONS
+================================================================================
+
+Project:           ~/Projects/tally-chatbot/
+Startup script:    ~/Projects/tally-chatbot/start           ⭐ USE THIS
+Stop script:       ~/Projects/tally-chatbot/stop            ⭐ USE THIS
+Proxy logs:        /tmp/tally-proxy.log
+Tunnel logs:       /tmp/tally-ngrok.log
+Documentation:     STARTUP_GUIDE.md, SETUP_STEPS.md
+
+================================================================================
+REFERENCE DOCS
+================================================================================
+
+Quick Start:       STARTUP_GUIDE.md
+Detailed Guide:    SETUP_STEPS.md
+What Was Fixed:    WHAT_WAS_FIXED.md
+Full Project:      README.md
+
+================================================================================
+COMMON COMMANDS
+================================================================================
+
+# Start everything
+bash start
+
+# Stop everything
+bash stop
+
+# Check if proxy is responding
+curl http://127.0.0.1:8787
+
+# Check if tunnel is working
+curl https://headset-slighting-heave.ngrok-free.dev
+
+# Test chatbot
+Open: https://tally-chatbot.vercel.app
+Enter passcode
+Ask: "What's my total receivables?"
+
+# Debug ngrok issues
+cat /tmp/tally-ngrok.log | grep error
+tail -f /tmp/tally-ngrok.log
+
+# Debug proxy issues
+cat /tmp/tally-proxy.log | grep error
+tail -f /tmp/tally-proxy.log
+
+# Manual service stop
+pkill ngrok
+pkill -f uvicorn
+
+================================================================================
+ARCHITECTURE (What's Running)
+================================================================================
+
+[Internet]
+    ↓
+[Vercel Chatbot UI] → https://tally-chatbot.vercel.app
+    ↓
+[ngrok Tunnel] → https://headset-slighting-heave.ngrok-free.dev
+    ↓
+[Local Proxy] → http://127.0.0.1:8787
+    ↓
+[TallyPrime] → http://127.0.0.1:9000 (via Bottles)
+
+================================================================================
+STILL STUCK?
+================================================================================
+
+1. Read STARTUP_GUIDE.md (simple overview)
+2. Read SETUP_STEPS.md (troubleshooting section)
+3. Check logs: tail -f /tmp/tally-proxy.log
+4. Verify TallyPrime is open on port 9000
+5. Try: bash stop && bash start
+
+================================================================================
