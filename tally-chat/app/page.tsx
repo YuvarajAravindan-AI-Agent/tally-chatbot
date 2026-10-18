@@ -32,7 +32,7 @@ export default function Home() {
   async function login(e: React.FormEvent) {
     e.preventDefault();
     setGateErr("");
-    const res = await fetch("/api/auth", {
+    const res = await fetch("/tally-demo/api/auth", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ passcode }),
@@ -66,7 +66,7 @@ export default function Home() {
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
-        const res = await fetch("/api/chat", {
+        const res = await fetch("/tally-demo/api/chat", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body,

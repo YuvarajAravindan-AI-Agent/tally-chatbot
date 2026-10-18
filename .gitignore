@@ -1,19 +1,14 @@
-# secrets
-.env
-.env.local
-.env.*.local
-*.pem
-*.key
-
-# deps
 node_modules/
 .venv/
 venv/
 __pycache__/
 *.pyc
-*.egg-info/
-
-# build
+.env
+.env.*
+!.env.example
+*.mp4
+*.wav
+*.jar
+*.log
 .next/
-dist/
-build/
+target/

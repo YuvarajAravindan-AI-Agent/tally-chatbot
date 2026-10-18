@@ -17,7 +17,7 @@ const MODEL = process.env.GEMINI_MODEL || "gemini-flash-latest";
 function getClient(): OpenAI {
   return new OpenAI({
     apiKey: process.env.GEMINI_API_KEY,
-    baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
+    baseURL: process.env.GEMINI_BASE_URL || "https://generativelanguage.googleapis.com/v1beta/openai/",
   });
 }
 
